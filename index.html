@@ -1,0 +1,507 @@
+<!-- 
+Test de Temperamentos 
+By Esteban Iafrancesco 
+15/03/2020 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test de temperamento</title>
+  </head>
+
+  <body>
+    <!-- Contenido inicial -->
+
+    <div class="container text-justify" style="padding-top: 3%;">
+      <!-- Cabecera test -->
+      <h3 class="text-center">Test de temperamento</h3>
+      <!-- Inicio del test -->
+      <div id="inicio">
+        <p>
+          Este test puede ayudarle a reconocer cómo está compuesto su
+          temperamento y cuál puede ser el más predominante. El resultado no es
+          determinante, pero puede darle una idea base para hacer consciente sus
+          fortalezas y sus debilidades.
+          <br />
+        </p>
+        <p>
+          Elija la respuesta que más coincida con usted, y no tome mucho tiempo
+          en responder a cada pregunta.
+        </p>
+        <button class="btn btn-outline-primary btn-block" id="empezar">
+          <h6>Empezar</h6>
+        </button>
+      </div>
+    </div>
+
+    <!-- Preguntas -->
+    <div class="container">
+      <div id="preguntas"></div>
+    </div>
+
+    <!-- Boton para resultados -->
+    <div class="container">
+      <div id="btnResultados"></div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="container">
+      <div id="resultados"></div>
+      <div id="temperamento-dominante"></div>
+    </div>
+
+    <!-- Lógica js-->
+    <script>
+      // Carga cabecera del test
+
+      // Carga de preguntas, con lógica para almacenar resultados
+      // Borrar introducción
+      document.getElementById("empezar").addEventListener("click", () => {
+        console.log("Borrando intro checked!...");
+        let cabecera = document.getElementById("inicio");
+        cabecera.style.display = "none";
+        test();
+      });
+
+      // "Documento JSON"
+      const preguntas = [
+        {
+          pregunta:
+            "1.	En una situación donde se deben delegar responsabilidades ¿Usted asume el rol de líder o prefiere seguir instrucciones?",
+          opciones: [
+            {
+              Sanguíneo: "Sí, Amo ser el que lidera.",
+              Colerico: "Si nadie se anima, yo asumo el liderazgo.",
+              Flemático: "No, Prefiero seguir instrucciones.",
+              Melancólico: "Si nadie se anima, yo animo a alguien a liderar.",
+            },
+          ],
+        },
+        {
+          pregunta:
+            "2.	¿Es impulsivo a la hora de tomar decisiones importantes? ",
+          opciones: [
+            {
+              Sanguíneo: "Sí. Muchísimo.",
+              Colerico: "Sí cuando algo me gusta mucho.",
+              Flemático: "No. Primero calculo riesgos.",
+              Melancólico:
+                "No. Soy muy indeciso y no logro tomar decisiones rápidas.",
+            },
+          ],
+        },
+        {
+          pregunta: "3.	¿Qué tan fácil es para usted expresar sus sentimientos?",
+          opciones: [
+            {
+              Sanguíneo:
+                "Puedo expresarlos con facilidad en cualquier conversación porque entro rápido en confianza.",
+              Colerico:
+                "Puedo expresarlos con mi grupo cercano de amigos y familia.",
+              Flemático: "No me gusta expresarlos con frecuencia.",
+              Melancólico:
+                "Me cuesta mucho expresar mis emociones a otros. Prefiero hacerlo por medios escritos.",
+            },
+          ],
+        },
+        {
+          pregunta:
+            "4.	¿Se considera el tipo de persona capaz de guardar un secreto?",
+          opciones: [
+            {
+              Sanguíneo: "No. Me cuesta mucho.",
+              Colerico:
+                "Sí, pero cuando alguien me ha insistido mucho en no contarlo.",
+              Flemático: "Sí. Creo que soy confiable.",
+              Melancólico: "Sí. Soy totalmente confiable.",
+            },
+          ],
+        },
+        {
+          pregunta: "5.	¿Cómo actúa frente al peligro?",
+          opciones: [
+            {
+              Sanguíneo: "Me da miedo. Probablemente salga corriendo.",
+              Colerico: "Lo enfrento.",
+              Flemático: "Pienso en las alternativas que tengo y lo enfrento.",
+              Melancólico: "Espero a que otros reaccionen primero.",
+            },
+          ],
+        },
+        {
+          pregunta: "6. ¿Sería capaz de perdonar una infidelidad?",
+          opciones: [
+            {
+              Sanguíneo: "Sí. A cualquiera le puede pasar.",
+              Colerico: "No lo creo. Es algo que me costaría mucho perdonar.",
+              Flemático: "Solo si el otro se esfuerza mucho por conseguirlo.",
+              Melancólico: "Lo intentaría, pero no olvidaría lo que me hizo.",
+            },
+          ],
+        },
+        {
+          pregunta:
+            "7.	¿Puede decirse que es una persona que tiende a exagerar las situaciones?",
+          opciones: [
+            {
+              Sanguíneo: "Sí. Muchísimo.",
+              Colerico: "No. Para nada.",
+              Flemático: "Un poco.",
+              Melancólico: "Sí. Bastante.",
+            },
+          ],
+        },
+        {
+          pregunta:
+            "8.	¿Considera que la disciplina es esencial para alcanzar una meta?",
+          opciones: [
+            {
+              Sanguíneo:
+                "Algunas veces. Me parece que el carisma es más importante.",
+              Colerico:
+                "Sí. Se necesita disciplina y método para lograr los planes.",
+              Flemático:
+                "Sí. Es muy necesaria, pero me cuesta trabajo discplinarme.",
+              Melancólico:
+                "Sí. Ha sido clave para lograr lo que me he propuesto.",
+            },
+          ],
+        },
+        {
+          pregunta: "9.	¿Qué es lo más importante para usted en la vida?",
+          opciones: [
+            {
+              Sanguíneo:
+                "Tener buenas relaciones sociales y lograr una imagen correcta en los demás.",
+              Colerico:
+                "Aprovechar bien el tiempo. Sentir que no lo desperdicio.",
+              Flemático: "La tranquilidad y el descanso.",
+              Melancólico: "Que todas las cosas que realice queden perfectas.",
+            },
+          ],
+        },
+        {
+          pregunta:
+            "10. Cuando un jefe le hace una observación negativa a su desempeño laboral ¿Qué pasa?...",
+          opciones: [
+            {
+              Sanguíneo: "Me da igual. Se me olvida rápido.",
+              Colerico:
+                "Le llevo la contraria y le explico por qué no estoy deacuerdo.",
+              Flemático:
+                "Se me baja el ánimo, pero no me gusta entrar en conflicto.",
+              Melancólico:
+                "Lo reconozco, pero me da durísimo porque soy muy crítico conmigo mismo.",
+            },
+          ],
+        },
+      ];
+      // Clasificación resultados
+      const descripciones = [
+        {
+          temperamento: "Sanguíneo",
+          definicion:
+            "Expresivo, con altas habilidades comunicativas y entusiasta en los proyectos que emprende. Le gusta ser el centro de atracción, puede tender a exagerar las situaciones. Es indisciplinado, desorganizado y tiende a la inestabilidad.",
+          cualidades:
+            "Carismático, comunicativo, despreocupado y cordial con quienes lo rodean. Hace amigos facilmente.",
+          defectos:
+            "Impulsivo, es dominante, no es puntual, lucha con su fuerza de voluntad y se fija mucho en el qué dirán.",
+        },
+        {
+          temperamento: "Colérico",
+          definicion:
+            "Se caracterizan por ser personas independientes, concretas a la hora de tomar decisiones. Su vida gira alrededor de la productividad y el liderazgo. Pueden llegar a ser rencorosos, poco afectuosos y explosivos cuando algo les genera malestar.",
+          cualidades:
+            "Optimista, organizador, no pierde el ánimo con facilidad ni se rinde ante las circunstancias y es determinado.",
+          defectos:
+            "Orgulloso, mandón, sarcástico y autosuficiente. Le gusta decidir por otros.",
+        },
+        {
+          temperamento: "Flemático",
+          definicion:
+            "Es alguien tranquilo y calmado en la toma de decisiones. Se le puede confiar tareas importantes. Tiende a ser muy diplomático a la hora de dar algunas respuestas. Suele llegar a ser cobarde para expresar sus emociones. En ocasiones podría verse como una persona poco sociable, pero cuando entra en confianza puede caracterizarse por su buen humor.",
+          cualidades: "Bondadoso, práctico, conciliador y es buen consejero.",
+          defectos:
+            "Pasivo, calculador, le huye al compromiso, indeciso y puede llegar a ser lento.",
+        },
+        {
+          temperamento: "Melancólico",
+          definicion:
+            "Suele caracterizarse por sus constantes cambios emocionales y es muy sensible al entorno. Tiene un pensamiento negativo frente al futuro. Suele contagiar a las personas con su estado de ánimo. Entre sus fortalezas está el ser analítico, dedicado, leal a sus sentimientos y tiene facilidad de perdón, pero puede llegar a ser vengativo. Piensa mucho para tomar una decisión, ya que valora las consecuencias positivas y negativas siempre esperando a que suceda lo que desea.",
+          cualidades: "Reflexivo, buen amigo, talentoso y preciso.",
+          defectos:
+            "Es exageradamente perfeccionista, desconfiado, introvertido y le cuesta empezar proyectos nuevos.",
+        },
+      ];
+      // Comenzar test
+      // Variable de control test
+      let i = 0;
+      //Variables contadoras temperamentos
+      let col = 0;
+      let mel = 0;
+      let fle = 0;
+      let san = 0;
+      // Función test
+      function test() {
+        console.log("Función test iniciando ...");
+        // Impresión pregunta actual
+        let salida = `
+                <div class="marco">
+                    <h6 class="text-center text-justity">${preguntas[i].pregunta}</h6><br>
+                    <ul name="lista">
+                        <label for="sanguineo">
+                        <input type="radio" name="checkbox" id="Sanguíneo" value="san">
+                        ${preguntas[i].opciones[0].Sanguíneo}</label><br>
+
+                        <label for="colerico">
+                        <input type="radio" name="checkbox" id="colerico" value="col">
+                        ${preguntas[i].opciones[0].Colerico}</label><br>
+
+                        <label for="flematico">
+                        <input type="radio" name="checkbox" id="Flemático" value="fle">
+                        ${preguntas[i].opciones[0].Flemático}</label><br>
+
+                        <label for="melancolico">
+                        <input type="radio" name="checkbox" id="Melancólico"value="mel">
+                        ${preguntas[i].opciones[0].Melancólico}</label><br>
+                        
+                        <br>
+                    </ul>
+                    <button class="btn btn-outline-success btn-block " id="siguiente">
+                        <h6>Siguiente</h6>
+                    </button>
+                </div>
+                `;
+        // Imprimir pregunta con posibles respuestas
+        document.getElementById("preguntas").innerHTML = salida;
+
+        // Validación de respuesta
+        document.getElementById("siguiente").addEventListener("click", () => {
+          // Validar respuesta escogida
+          console.log("Validando respuesta...");
+          switch (respuestaEscogida()) {
+            case "col":
+              col++;
+              console.log(col);
+              break;
+            case "mel":
+              mel++;
+              console.log(mel);
+              break;
+            case "san":
+              san++;
+              console.log(san);
+              break;
+            case "fle":
+              fle++;
+              console.log(fle);
+              break;
+            case undefined:
+              alert("Escoja una respuesta para continuar!");
+              i--;
+              break;
+            default:
+              break;
+          }
+          // respuestaEscogida();
+          function respuestaEscogida() {
+            let opciones = document.getElementsByName("checkbox");
+            for (let i = 0; i < opciones.length; i++) {
+              if (opciones[i].checked) {
+                return opciones[i].value;
+                i = opciones.length;
+              }
+            }
+          }
+          // Incremento variable de control para preguntas
+          i++;
+          // Preguntar cuál fue la respuesta
+          if (i == preguntas.length) {
+            console.log("Estoy en mostrar resultados");
+            console.log("La variable i es " + i);
+            mostrarResultados();
+          } else {
+            console.log(
+              "Estoy en siguiente pregunta, es decir en la función test"
+            );
+            console.log(i);
+            test();
+          }
+          function mostrarResultados() {
+            //Borrar el boton siguiente
+            let btnRes = document.getElementById("siguiente");
+            btnRes.style.display = "none";
+            //Desplegar boton resultados
+            let botonResultados = `
+                        <button class="btn btn-outline-info btn-block " id="btnResultados">
+                             <h6>Ver resultados</h6>
+                         </button>
+                    `;
+            document.getElementById(
+              "btnResultados"
+            ).innerHTML = botonResultados;
+            // Desplegar resultados
+            document
+              .getElementById("btnResultados")
+              .addEventListener("click", () => {
+                console.log("Borrando ultima pregunta checked!...");
+                // Borrar última pregunta
+                let ultimaPregunta = document.getElementById("preguntas");
+                ultimaPregunta.style.display = "none";
+                // Borrar el boton resultados
+                let btnSinRes = document.getElementById("btnResultados");
+                btnSinRes.style.display = "none";
+
+                // Barras con resultados
+                let sanguineo = ((san / preguntas.length) * 100).toFixed(2);
+                let colerico = ((col / preguntas.length) * 100).toFixed(2);
+                let flematico = ((fle / preguntas.length) * 100).toFixed(2);
+                let melancolico = ((mel / preguntas.length) * 100).toFixed(2);
+
+                const resultados = {
+                  Sanguíneo: sanguineo,
+                  Colérico: colerico,
+                  Flemático: flematico,
+                  Melancólico: melancolico,
+                };
+
+                let sortable = [];
+                for (let temperamento in resultados) {
+                  sortable.push([temperamento, resultados[temperamento]]);
+                }
+
+                sortable.sort((a, b) => {
+                  return a[1] - b[1];
+                });
+
+                // Temperamento predominante
+                let temperamentoPredominante = sortable[3][0];
+                console.log(temperamentoPredominante);
+
+                function retTest() {
+                  let descripcion = "";
+                  for (let i = 0; i < descripciones.length; i++) {
+                    console.log("Estoy en la función autoinvocada con");
+                    if (
+                      descripciones[i].temperamento == temperamentoPredominante
+                    ) {
+                      console.log('Si entró al "constructor" del div');
+                      descripcion += `
+<div class="row">
+
+    <div class="text-justify col-md-6 align-self-center " id="resultado">
+        <!-- Temperamento -->
+        <br>
+        <h6 style="height:auto">Temperamento predominante ${descripciones[i].temperamento}</h6>
+        <p>${descripciones[i].definicion}</p>
+        <h6>Cualidades</h6>
+        <p>${descripciones[i].cualidades}</p>
+        <h6>Defectos</h6>
+        <p>${descripciones[i].defectos}</p>
+    </div>
+
+    <div class="col-1"></div>
+
+    <div class="col-md-4 " style="align: center;">
+        <br><br>
+        <h6 class="progress-bar bg-dark " style="height:auto">Sanguíneo</h6>
+        <div class="progress" style="height: auto">
+            <div class="progress-bar bg-info " style="width:${sanguineo}%">
+                <h6 class="progress-bar bg-info">${sanguineo}%</h6>
+            </div>
+        </div><br>
+
+        <h6 class="progress-bar bg-dark " style="height:auto">Colérico</h6>
+        <div class="progress" style="height:auto"">
+            <div class="progress-bar bg-info " style="width:${colerico}%">
+                <h6 class="progress-bar bg-info">${colerico}% </h6>
+            </div>
+        </div><br>
+
+        <h6 class="progress-bar bg-dark " style="height:auto">Flemático</h6>
+        <div class="progress" style="height:auto"">
+            <div class="progress-bar bg-info " style="width:${flematico}% ">
+                <h6 class="progress-bar bg-info">${flematico}% </h6>
+            </div>
+        </div><br>
+
+        <h6 class="progress-bar bg-dark " style="height:auto">Melancólico</h6>
+        <div class="progress" style="height:auto">
+            <div class="progress-bar bg-info " style="width:${melancolico}%">
+                <h6 class="progress-bar bg-info">${melancolico}%</h6>
+            </div>
+        </div><br>
+    </div>
+</div>
+                                                             `;
+
+                      //Salir del ciclo
+                      i = i + 4;
+                    }
+                    document.getElementById(
+                      "temperamento-dominante"
+                    ).innerHTML = descripcion;
+                  }
+                }
+                retTest();
+
+                // Resultados
+                let barras = `
+                            <div>
+                                <h6 class="progress-bar bg-dark " style="height:auto">Temperamento predominante ${temperamentoPredominante}</h6>
+                            </div><br>
+                            <div id="temperamento-dominante">${descripcion}</div>
+                                `;
+
+                document.getElementById("resultados").innerHTML = barras;
+              });
+          }
+        });
+      }
+    </script>
+
+    <!-- Estilo -->
+    <style>
+      .marco {
+        padding: 3% 3% 3% 3%;
+      }
+
+      .flex-container {
+        display: flex;
+      }
+
+      /* .flex-container>div {
+            background-color: #f1f1f1;
+            margin: 10px;
+            padding: 20px;
+            font-size: 30px;
+        } */
+    </style>
+    <!-- Estilos adicionales Bootstrap 4 -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!-- Interactividad -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
