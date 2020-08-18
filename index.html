@@ -36,6 +36,10 @@ By Esteban Iafrancesco
       </div>
     </div>
 
+    
+
+
+
     <!-- Preguntas -->
     <div class="container">
       <div id="preguntas"></div>
@@ -163,7 +167,7 @@ By Esteban Iafrancesco
               Colerico:
                 "Sí. Se necesita disciplina y método para lograr los planes.",
               Flemático:
-                "Sí. Es muy necesaria, pero me cuesta trabajo discplinarme.",
+                "Sí. Es muy necesaria, pero me cuesta trabajo disciplinarme.",
               Melancólico:
                 "Sí. Ha sido clave para lograr lo que me he propuesto.",
             },
@@ -208,6 +212,8 @@ By Esteban Iafrancesco
             "Carismático, comunicativo, despreocupado y cordial con quienes lo rodean. Hace amigos facilmente.",
           defectos:
             "Impulsivo, es dominante, no es puntual, lucha con su fuerza de voluntad y se fija mucho en el qué dirán.",
+          recomendacion:
+            "Desde el punto de vista del liderazgo, se puede llegar mejor a ellos, al despertar su amor por un tema y al lograr que sea admirado por  su equipo. Para este temperamento, la validación social es muy importante y es un motivador de acciones."
         },
         {
           temperamento: "Colérico",
@@ -217,6 +223,8 @@ By Esteban Iafrancesco
             "Optimista, organizador, no pierde el ánimo con facilidad ni se rinde ante las circunstancias y es determinado.",
           defectos:
             "Orgulloso, mandón, sarcástico y autosuficiente. Le gusta decidir por otros.",
+          recomendacion:
+          "Desde el punto de vista de liderazgo, este temperamento puede motivarse mediante el respeto mutuo y los desafíos apropiados que reconocen sus capacidades."
         },
         {
           temperamento: "Flemático",
@@ -225,6 +233,8 @@ By Esteban Iafrancesco
           cualidades: "Bondadoso, práctico, conciliador y es buen consejero.",
           defectos:
             "Pasivo, calculador, le huye al compromiso, indeciso y puede llegar a ser lento.",
+          recomendacion:
+            "Desde el punto de vista de liderazgo, su interés puede despertarse cuando se suscita su interés por un tema, y tiene un líder o grupo que lo impulsa a colaborar en conseguir un objetivo. "
         },
         {
           temperamento: "Melancólico",
@@ -233,6 +243,8 @@ By Esteban Iafrancesco
           cualidades: "Reflexivo, buen amigo, talentoso y preciso.",
           defectos:
             "Es exageradamente perfeccionista, desconfiado, introvertido y le cuesta empezar proyectos nuevos.",
+          recomendacion:
+            "Desde el punto de vista de liderazgo, este temperamento se motiva al despertar su empatía por los demás o por una causa que alivie un problema en los demás."
         },
       ];
       // Comenzar test
@@ -319,14 +331,8 @@ By Esteban Iafrancesco
           i++;
           // Preguntar cuál fue la respuesta
           if (i == preguntas.length) {
-            console.log("Estoy en mostrar resultados");
-            console.log("La variable i es " + i);
             mostrarResultados();
           } else {
-            console.log(
-              "Estoy en siguiente pregunta, es decir en la función test"
-            );
-            console.log(i);
             test();
           }
           function mostrarResultados() {
@@ -389,52 +395,54 @@ By Esteban Iafrancesco
                     ) {
                       console.log('Si entró al "constructor" del div');
                       descripcion += `
-<div class="row">
 
-    <div class="text-justify col-md-6 align-self-center " id="resultado">
-        <!-- Temperamento -->
-        <br>
-        <h6 style="height:auto">Temperamento predominante ${descripciones[i].temperamento}</h6>
-        <p>${descripciones[i].definicion}</p>
-        <h6>Cualidades</h6>
-        <p>${descripciones[i].cualidades}</p>
-        <h6>Defectos</h6>
-        <p>${descripciones[i].defectos}</p>
-    </div>
+                      <div class="container">
+                        <div class="row">
 
-    <div class="col-1"></div>
+                      <div class="text-justify col-md-6 align-self-center " id="resultado">
+                          <!-- Temperamento -->
+                          <br>
+                          <h6 style="height:auto">Temperamento predominante ${descripciones[i].temperamento}</h6>
+                          <p>${descripciones[i].definicion}</p>
+                          <h6>Cualidades</h6>
+                          <p>${descripciones[i].cualidades}</p>
+                          <h6>Defectos</h6>
+                          <p>${descripciones[i].defectos}</p>
+                          </div>
 
-    <div class="col-md-4 " style="align: center;">
-        <br><br>
-        <h6 class="progress-bar bg-dark " style="height:auto">Sanguíneo</h6>
-        <div class="progress" style="height: auto">
-            <div class="progress-bar bg-info " style="width:${sanguineo}%">
-                <h6 class="progress-bar bg-info">${sanguineo}%</h6>
-            </div>
-        </div><br>
+                          <div class="col-md-4 " style="align: center;">
+                          <br><br>
+                          <h6 class="progress-bar bg-dark " style="height:auto">Sanguíneo</h6>
+                          <div>
+                              <h6 style="color:black; " class="bg-light">${sanguineo}%</h6>
+                          </div>
+                          <h6 class="progress-bar bg-dark " style="height:auto">Colérico</h6>
+                          <div>
+                              <h6 style="color:black; " class="bg-light">${colerico}%</h6>
+                          </div>
+                          <h6 class="progress-bar bg-dark " style="height:auto">Flemático</h6>
+                          <div>
+                              <h6 style="color:black; " class="bg-light">${flematico}%</h6>
+                          </div>
+                          <h6 class="progress-bar bg-dark " style="height:auto">Melancólico</h6>
+                          <div>
+                              <h6 style="color:black; " class="bg-light">${melancolico}%</h6>
+                          </div>
+                          </div><br>
 
-        <h6 class="progress-bar bg-dark " style="height:auto">Colérico</h6>
-        <div class="progress" style="height:auto"">
-            <div class="progress-bar bg-info " style="width:${colerico}%">
-                <h6 class="progress-bar bg-info">${colerico}% </h6>
-            </div>
-        </div><br>
+                          <div class="col-1"></div>
 
-        <h6 class="progress-bar bg-dark " style="height:auto">Flemático</h6>
-        <div class="progress" style="height:auto"">
-            <div class="progress-bar bg-info " style="width:${flematico}% ">
-                <h6 class="progress-bar bg-info">${flematico}% </h6>
-            </div>
-        </div><br>
+                          </div>
+                          </div>
+                      
 
-        <h6 class="progress-bar bg-dark " style="height:auto">Melancólico</h6>
-        <div class="progress" style="height:auto">
-            <div class="progress-bar bg-info " style="width:${melancolico}%">
-                <h6 class="progress-bar bg-info">${melancolico}%</h6>
-            </div>
-        </div><br>
-    </div>
-</div>
+                    <div class="text-justify col-md-12 align-self-center " id="resultado">
+                        <!-- Recomendaciones -->
+                        <br>
+                        <h6>Recomendaciones</h6>
+                        <p>${descripciones[i].recomendacion}</p>
+                    </div>
+                    </div>
                                                              `;
 
                       //Salir del ciclo
@@ -472,12 +480,6 @@ By Esteban Iafrancesco
         display: flex;
       }
 
-      /* .flex-container>div {
-            background-color: #f1f1f1;
-            margin: 10px;
-            padding: 20px;
-            font-size: 30px;
-        } */
     </style>
     <!-- Estilos adicionales Bootstrap 4 -->
     <link
